@@ -3,6 +3,7 @@ package id.rrdev.pretest.data.network
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import id.rrdev.pretest.MyApp.Companion.prefManager
 import id.rrdev.pretest.data.response.AuthResponse
+import id.rrdev.pretest.data.response.ProductPostResponse
 import id.rrdev.pretest.data.response.ProductResponse
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -25,13 +26,13 @@ interface MyApi {
     @GET("product")
     suspend fun getProduct(
     ): Response<ProductResponse>
-//
-//    @JvmSuppressWildcards
-//    @Multipart
-//    @POST("user/register")
-//    suspend fun authRegister(
-//        @PartMap postRegister: Map<String, RequestBody>
-//    ): Response<AuthResponse>
+
+    @JvmSuppressWildcards
+    @Multipart
+    @POST("product")
+    suspend fun postProduct(
+        @PartMap dataProduct: Map<String, RequestBody>
+    ): Response<ProductPostResponse>
 //
 //    @Multipart
 //    @POST("user/avatar")
@@ -98,7 +99,7 @@ interface MyApi {
                 .addInterceptor {
                     val req = it.request()
                         .newBuilder()
-                        .addHeader("Authorization", "Bearer " + prefManager.spToken)
+                        .addHeader("Authorization", "Bearer " + prefManager.getAuthData()?.token)
                         .build()
                     return@addInterceptor it.proceed(req)
                 }

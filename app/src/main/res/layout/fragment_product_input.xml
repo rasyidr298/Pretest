@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -41,7 +42,7 @@
             tools:targetApi="p">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etEmail"
+                android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="8dp"
@@ -71,12 +72,12 @@
             tools:targetApi="p">
 
             <EditText
-                android:id="@+id/etPassword"
+                android:id="@+id/etPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="8dp"
                 android:hint="Harga"
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:maxLines="1"
                 android:textColor="@color/soft_blue"
                 android:textSize="16sp" />
@@ -84,7 +85,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tilPassword"

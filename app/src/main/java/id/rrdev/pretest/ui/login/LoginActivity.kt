@@ -29,7 +29,9 @@ class LoginActivity : AppCompatActivity() {
     private fun initView() {
         viewModel = AuthViewModel(this)
 
-        intentToHome()
+        if (prefManager.getAuthData()?.token != null) {
+            intentToHome()
+        }
 
         binding.btnLogin.setOnClickListener {
             doLogin()
@@ -67,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
             when (result) {
                 is AuthViewModel.LoginState.Succes -> {
                     binding.progress.hide()
-                    prefManager.spToken = result.user.data?.token
+                    prefManager.saveAuthData(result.user.data!!)
                     intentToHome()
                 }
 

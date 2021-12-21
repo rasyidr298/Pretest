@@ -2,6 +2,8 @@ package id.rrdev.pretest.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.gson.Gson
+import id.rrdev.pretest.data.response.DataAuth
 
 private const val PREFS_NAME = "app_name"
 
@@ -19,18 +21,18 @@ class PrefManager(context: Context) {
 //        sp.edit().remove(PREF_AUTH_APP).apply()
     }
 
-//    fun saveAuthData(list: AuthData) {
-//        val gson = Gson()
-//        val json: String = gson.toJson(list)
-//        spe.putString(PREF_AUTH_APP, json)
-//        spe.apply()
-//    }
-//
-//    fun getAuthData(): AuthData? {
-//        val gson = Gson()
-//        val json: String? = sp.getString(PREF_AUTH_APP, "")
-//        return gson.fromJson(json, AuthData::class.java)
-//    }
+    fun saveAuthData(list: DataAuth) {
+        val gson = Gson()
+        val json: String = gson.toJson(list)
+        spe.putString("saveAuthData", json)
+        spe.apply()
+    }
+
+    fun getAuthData(): DataAuth? {
+        val gson = Gson()
+        val json: String? = sp.getString("saveAuthData", "")
+        return gson.fromJson(json, DataAuth::class.java)
+    }
 
     var spToken: String?
         get() = sp.getString("spToken", "")

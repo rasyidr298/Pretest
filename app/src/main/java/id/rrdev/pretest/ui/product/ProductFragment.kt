@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import id.rrdev.pretest.R
 import id.rrdev.pretest.databinding.FragmentProductBinding
 import id.rrdev.pretest.ui.adapter.ProductAdapter
-import id.rrdev.pretest.ui.inputProduct.ProductInputFragment
 import id.rrdev.pretest.utils.hide
 import id.rrdev.pretest.utils.show
 
