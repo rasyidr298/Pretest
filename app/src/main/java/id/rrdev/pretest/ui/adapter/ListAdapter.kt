@@ -1,4 +1,4 @@
-//package id.rrdev.pretest.adapter
+//package id.rrdev.pretest.ui.adapter
 //
 //import android.view.LayoutInflater
 //import android.view.ViewGroup
