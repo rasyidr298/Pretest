@@ -3,29 +3,24 @@ package id.rrdev.pretest.data.response
 
 import com.google.gson.annotations.SerializedName
 
-data class AuthResponse(
+data class ProductDeleteResponse(
     @SerializedName("data")
-    val data: DataAuth?,
+    val data: List<DataDeleteProduct>?,
     @SerializedName("message")
     val message: String?,
     @SerializedName("success")
     val success: Boolean?
 )
 
-data class DataAuth(
-    @SerializedName("admin")
-    val admin: Admin?,
-    @SerializedName("token")
-    val token: String?
-)
-
-data class Admin(
-    @SerializedName("email")
-    val email: String?,
+data class DataDeleteProduct(
+    @SerializedName("admin_id")
+    val adminId: String?,
+    @SerializedName("harga")
+    val harga: String?,
     @SerializedName("id")
     val id: String?,
     @SerializedName("nama")
     val nama: String?,
-    @SerializedName("password")
-    val password: String?
+    @SerializedName("stock")
+    val stock: String?
 )

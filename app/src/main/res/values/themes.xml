@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="HintText" parent="Theme.ASPEKSINDOParticipant">
+    <style name="HintText" parent="Theme.Pretest">
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">12sp</item>
         <item name="android:paddingStart">20dp</item>

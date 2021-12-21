@@ -1,8 +1,12 @@
 package id.rrdev.pretest.data.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import id.rrdev.pretest.MyApp.Companion.prefManager
+import id.rrdev.pretest.data.response.AuthResponse
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
@@ -10,12 +14,12 @@ import java.util.concurrent.TimeUnit
 
 interface MyApi {
 
-//    @JvmSuppressWildcards
-//    @Multipart
-//    @POST("user/login")
-//    suspend fun authLogin(
-//        @PartMap postRegister: Map<String, RequestBody>
-//    ): Response<AuthResponse>
+    @JvmSuppressWildcards
+    @Multipart
+    @POST("auth/login")
+    suspend fun authLogin(
+        @PartMap postRegister: Map<String, RequestBody>
+    ): Response<AuthResponse>
 //
 //    @JvmSuppressWildcards
 //    @Multipart
@@ -67,7 +71,7 @@ interface MyApi {
 
             return Retrofit.Builder()
                 .client(okkHttpclient)
-                .baseUrl("BASE_PRODUCTION")
+                .baseUrl("https://69b6-182-1-77-239.ngrok.io/ci-pcs-rest-api/api/")
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                .client(getOkHttpClient(networkConnectionInterceptor))
@@ -89,7 +93,7 @@ interface MyApi {
                 .addInterceptor {
                     val req = it.request()
                         .newBuilder()
-//                        .addHeader("Authorization", "Bearer " + prefManager.spToken)
+                        .addHeader("Authorization", "Bearer " + prefManager.spToken)
                         .build()
                     return@addInterceptor it.proceed(req)
                 }

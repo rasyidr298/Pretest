@@ -30,11 +30,11 @@ class AuthViewModel(context: Context): BaseViewModel<AuthViewModel.LoginState>()
             _state.value= (LoginState.Loading(true))
 
             try {
-//                val authResponse = repository.userLogin(dataLogin)
-//                authResponse.let {
-//                    _state.value= (LoginState.Succes(it))
-//                    return@main
-//                }
+                val authResponse = repository.userLogin(dataLogin)
+                authResponse.let {
+                    _state.value= (LoginState.Succes(it))
+                    return@main
+                }
 
             } catch (e: ApiException) {
                 _state.value= (LoginState.Error(e.message.toString()))
