@@ -2,7 +2,6 @@ package id.rrdev.pretest.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import id.rrdev.pretest.MyApp.Companion.prefManager
@@ -29,6 +28,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun initView() {
         viewModel = AuthViewModel(this)
+
+        intentToHome()
 
         binding.btnLogin.setOnClickListener {
             doLogin()
@@ -67,12 +68,7 @@ class LoginActivity : AppCompatActivity() {
                 is AuthViewModel.LoginState.Succes -> {
                     binding.progress.hide()
                     prefManager.spToken = result.user.data?.token
-                    Log.e("aaa", result.user.data.toString())
-
-                    Intent(this, HomeActivity::class.java).also {
-                        it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(it)
-                    }
+                    intentToHome()
                 }
 
                 is AuthViewModel.LoginState.Error -> {
@@ -84,5 +80,12 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun intentToHome() {
+        Intent(this, HomeActivity::class.java).also {
+            it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(it)
+        }
     }
 }

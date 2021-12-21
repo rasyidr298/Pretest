@@ -3,6 +3,7 @@ package id.rrdev.pretest.data.network
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import id.rrdev.pretest.MyApp.Companion.prefManager
 import id.rrdev.pretest.data.response.AuthResponse
+import id.rrdev.pretest.data.response.ProductResponse
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,6 +21,10 @@ interface MyApi {
     suspend fun authLogin(
         @PartMap postRegister: Map<String, RequestBody>
     ): Response<AuthResponse>
+
+    @GET("product")
+    suspend fun getProduct(
+    ): Response<ProductResponse>
 //
 //    @JvmSuppressWildcards
 //    @Multipart
