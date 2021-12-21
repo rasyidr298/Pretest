@@ -1,4 +1,4 @@
-package id.rrdev.pretest.ui.transaction_pay
+package id.rrdev.pretest.ui.transaction
 
 import android.os.Bundle
 import android.view.LayoutInflater

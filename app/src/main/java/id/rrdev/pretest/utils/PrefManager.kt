@@ -34,10 +34,10 @@ class PrefManager(context: Context) {
         return gson.fromJson(json, DataAuth::class.java)
     }
 
-    var spToken: String?
-        get() = sp.getString("spToken", "")
+    var spTotalPrice: Int
+        get() = sp.getInt("spTotalPrice", 0)
         set(value) {
-            spe.putString("spToken", value)
+            spe.putInt("spTotalPrice", value)
             spe.apply()
         }
 

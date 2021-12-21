@@ -1,15 +1,24 @@
 package id.rrdev.pretest.ui.transaction
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.LinearLayoutManager
 import id.rrdev.pretest.R
 import id.rrdev.pretest.databinding.FragmentTransactionBinding
-import id.rrdev.pretest.databinding.FragmentTransactionPayBinding
+import id.rrdev.pretest.ui.adapter.TransactionAdapter
+import id.rrdev.pretest.ui.product.ProductViewModel
+import id.rrdev.pretest.utils.OnItemClicked
+import id.rrdev.pretest.utils.hide
+import id.rrdev.pretest.utils.show
 
-class TransactionFragment : Fragment() {
+class TransactionFragment : Fragment(), OnItemClicked {
+
+    lateinit var viewModel: ProductViewModel
+    lateinit var adapter: TransactionAdapter
 
     private var _fragment: FragmentTransactionBinding? = null
     private val binding get() = _fragment as FragmentTransactionBinding
@@ -20,6 +29,67 @@ class TransactionFragment : Fragment() {
     ): View {
         _fragment = FragmentTransactionBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initView()
+        observeData()
+    }
+
+    private fun initView() {
+        viewModel = ProductViewModel(requireContext())
+        adapter = TransactionAdapter(this)
+
+        with(binding.rvProduct){
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = this@TransactionFragment.adapter
+        }
+
+        viewModel.getProduct()
+
+        with(binding) {
+            btnAdd.setOnClickListener {
+                navigationChange(TransactionPayFragment())
+            }
+        }
+    }
+
+    private fun navigationChange(fragment: Fragment) {
+        activity!!.supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.frameContainer, fragment)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commit()
+    }
+
+    private fun observeData() {
+        viewModel.state.observe(viewLifecycleOwner, { result ->
+            when (result) {
+                is ProductViewModel.ProductState.Succes -> {
+                    this.adapter.addList(result.product.data!!)
+                    binding.progress.hide()
+                }
+
+                is ProductViewModel.ProductState.Error -> {
+                    binding.progress.hide()
+                }
+                is ProductViewModel.ProductState.Loading -> {
+                    binding.progress.show()
+                }
+            }
+        })
+    }
+
+    override fun onEventClick(data: Int) {
+        super.onEventClick(data)
+
+        var totalPrice = 0
+        for (i in 1 until adapter.list.size) {
+            totalPrice += (adapter.list[i].harga!!.toInt() * data)
+        }
+        binding.tvTotal.text = "Rp. $totalPrice"
     }
 
     override fun onDestroyView() {

@@ -6,27 +6,27 @@
         android:id="@+id/menu_product"
         android:enabled="true"
         android:icon="@drawable/ic_product"
-        android:title="Skins"
+        android:title="Product"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/menu_transaction"
         android:enabled="true"
         android:icon="@drawable/ic_transaction"
-        android:title="Request"
+        android:title="Transaksi"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_report"
         android:enabled="true"
         android:icon="@drawable/ic_report"
-        android:title="More"
+        android:title="Laporan"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/menu_about"
         android:enabled="true"
         android:icon="@drawable/ic_about"
-        android:title="More"
+        android:title="About"
         app:showAsAction="always"/>
 </menu>
