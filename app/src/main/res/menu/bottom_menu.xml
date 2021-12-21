@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_product"
+        android:enabled="true"
+        android:icon="@drawable/ic_product"
+        android:title="Skins"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_transaction"
+        android:enabled="true"
+        android:icon="@drawable/ic_transaction"
+        android:title="Request"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_report"
+        android:enabled="true"
+        android:icon="@drawable/ic_report"
+        android:title="More"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_about"
+        android:enabled="true"
+        android:icon="@drawable/ic_about"
+        android:title="More"
+        app:showAsAction="always"/>
+</menu>

@@ -10,13 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pretest">
         <activity
-            android:name=".ListActivity"
+            android:name=".ui.HomeActivity"
             android:exported="true" />
         <activity
-            android:name=".AmountActivity"
-            android:exported="true" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".ui.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
