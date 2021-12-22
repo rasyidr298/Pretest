@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class TransactionResponse(
     @SerializedName("data")
-    val `data`: List<TransactionData>?,
+    val data: List<TransactionData>?,
     @SerializedName("message")
     val message: String?,
     @SerializedName("success")

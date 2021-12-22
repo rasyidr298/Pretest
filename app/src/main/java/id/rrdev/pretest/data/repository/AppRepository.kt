@@ -5,6 +5,7 @@ import id.rrdev.pretest.data.network.SafeApiRequest
 import id.rrdev.pretest.data.response.AuthResponse
 import id.rrdev.pretest.data.response.ProductPostResponse
 import id.rrdev.pretest.data.response.ProductResponse
+import id.rrdev.pretest.data.response.TransactionResponse
 import okhttp3.RequestBody
 
 class AppRepository(private val api: MyApi): SafeApiRequest() {
@@ -15,6 +16,10 @@ class AppRepository(private val api: MyApi): SafeApiRequest() {
 
     suspend fun getProduct(): ProductResponse {
         return apiRequest { api.getProduct() }
+    }
+
+    suspend fun getTransaction(): TransactionResponse {
+        return apiRequest { api.getTransaction() }
     }
 
     suspend fun postProduct(dataProduct: HashMap<String, RequestBody>): ProductPostResponse {

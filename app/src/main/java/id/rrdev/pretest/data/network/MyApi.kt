@@ -5,6 +5,7 @@ import id.rrdev.pretest.MyApp.Companion.prefManager
 import id.rrdev.pretest.data.response.AuthResponse
 import id.rrdev.pretest.data.response.ProductPostResponse
 import id.rrdev.pretest.data.response.ProductResponse
+import id.rrdev.pretest.data.response.TransactionResponse
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -33,6 +34,10 @@ interface MyApi {
     suspend fun postProduct(
         @PartMap dataProduct: Map<String, RequestBody>
     ): Response<ProductPostResponse>
+
+    @GET("transaksi")
+    suspend fun getTransaction(
+    ): Response<TransactionResponse>
 //
 //    @Multipart
 //    @POST("user/avatar")
