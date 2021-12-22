@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
+import id.rrdev.pretest.MyApp.Companion.prefManager
 import id.rrdev.pretest.R
 import id.rrdev.pretest.databinding.FragmentTransactionBinding
 import id.rrdev.pretest.ui.adapter.TransactionAdapter
@@ -19,6 +20,8 @@ class TransactionFragment : Fragment(), OnItemClicked {
 
     lateinit var viewModel: ProductViewModel
     lateinit var adapter: TransactionAdapter
+
+    var totalPrice = 0
 
     private var _fragment: FragmentTransactionBinding? = null
     private val binding get() = _fragment as FragmentTransactionBinding
@@ -51,6 +54,7 @@ class TransactionFragment : Fragment(), OnItemClicked {
 
         with(binding) {
             btnAdd.setOnClickListener {
+                prefManager.spTotalPrice = totalPrice
                 navigationChange(TransactionPayFragment())
             }
         }
@@ -85,7 +89,6 @@ class TransactionFragment : Fragment(), OnItemClicked {
     override fun onEventClick(data: Int) {
         super.onEventClick(data)
 
-        var totalPrice = 0
         for (i in 1 until adapter.list.size) {
             totalPrice += (adapter.list[i].harga!!.toInt() * data)
         }
