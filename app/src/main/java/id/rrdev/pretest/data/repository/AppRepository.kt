@@ -30,4 +30,8 @@ class AppRepository(private val api: MyApi): SafeApiRequest() {
     suspend fun updateProduct(productId: String, dataProduct: HashMap<String, RequestBody>): ProductPostResponse {
         return apiRequest { api.updateProduct(productId, dataProduct) }
     }
+
+    suspend fun postTransaction(dataTransaction: HashMap<String, RequestBody>): TransactionPostResponse {
+        return apiRequest { api.postTransaction(dataTransaction) }
+    }
 }

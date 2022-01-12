@@ -49,6 +49,13 @@ interface MyApi {
     suspend fun getTransaction(
     ): Response<TransactionResponse>
 
+    @JvmSuppressWildcards
+    @Multipart
+    @POST("transaksi")
+    suspend fun postTransaction(
+        @PartMap dataTransaction: Map<String, RequestBody>
+    ): Response<TransactionPostResponse>
+
     companion object {
         operator fun invoke(
             networkConnectionInterceptor: NetworkConnectionInterceptor

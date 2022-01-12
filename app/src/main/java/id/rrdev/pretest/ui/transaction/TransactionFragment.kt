@@ -11,14 +11,17 @@ import id.rrdev.pretest.MyApp.Companion.prefManager
 import id.rrdev.pretest.R
 import id.rrdev.pretest.databinding.FragmentTransactionBinding
 import id.rrdev.pretest.ui.adapter.TransactionAdapter
+import id.rrdev.pretest.ui.product.ProductInputDialog
 import id.rrdev.pretest.ui.product.ProductViewModel
 import id.rrdev.pretest.utils.OnItemClicked
 import id.rrdev.pretest.utils.hide
 import id.rrdev.pretest.utils.show
+import id.rrdev.pretest.utils.tag
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class TransactionFragment : Fragment(), OnItemClicked {
 
-    lateinit var viewModel: ProductViewModel
+    private val viewModel: ProductViewModel by viewModel()
     lateinit var adapter: TransactionAdapter
 
     var totalPrice = 0
@@ -42,7 +45,6 @@ class TransactionFragment : Fragment(), OnItemClicked {
     }
 
     private fun initView() {
-        viewModel = ProductViewModel(requireContext())
         adapter = TransactionAdapter(this)
 
         with(binding.rvProduct){
@@ -55,17 +57,9 @@ class TransactionFragment : Fragment(), OnItemClicked {
         with(binding) {
             btnAdd.setOnClickListener {
                 prefManager.spTotalPrice = totalPrice
-                navigationChange(TransactionPayFragment())
+                TransactionPayDialog.build() {}.show(requireFragmentManager(), tag(requireContext()))
             }
         }
-    }
-
-    private fun navigationChange(fragment: Fragment) {
-        activity!!.supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.frameContainer, fragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .commit()
     }
 
     private fun observeData() {

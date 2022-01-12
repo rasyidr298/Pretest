@@ -47,10 +47,10 @@ class HomeActivity : AppCompatActivity() {
                     navigationChange(TransactionFragment())
                 }
                 R.id.menu_report  -> {
-                    ReportFragment()
+                    navigationChange(ReportFragment())
                 }
                 R.id.menu_about  -> {
-                    AboutFragment()
+                    navigationChange(AboutFragment())
                 }
             }
             false

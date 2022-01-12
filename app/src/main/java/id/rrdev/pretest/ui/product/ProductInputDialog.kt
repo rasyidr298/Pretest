@@ -98,7 +98,7 @@ class ProductInputDialog(
     }
 
     private fun observeData() {
-        viewModel.state.observe(this, { result ->
+        viewModel.state.observe(viewLifecycleOwner, { result ->
             when (result) {
                 is ProductViewModel.ProductState.SuccesPost -> {
                     dismiss()
