@@ -39,8 +39,8 @@ class ReportAdapter() : RecyclerView.Adapter<ReportAdapter.EventHolder>() {
         fun bind(data: TransactionData) {
             with(binding){
                 tvDate.text = data.tanggal
-                tvId.text = data.id
-                tvPrice.text = data.total
+                tvId.text = "total : "+data.id
+                tvPrice.text = "Rp. "+data.total
             }
         }
     }

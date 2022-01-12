@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.rrdev.pretest.databinding.FragmentReportBinding
 import id.rrdev.pretest.ui.adapter.ReportAdapter
-import id.rrdev.pretest.ui.product.ProductViewModel
 import id.rrdev.pretest.utils.hide
 import id.rrdev.pretest.utils.show
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -52,6 +51,12 @@ class ReportFragment : Fragment() {
             when (result) {
                 is ReportViewModel.ReportState.Succes -> {
                     this.adapter.addList(result.product.data!!)
+                    var total = 0
+                    result.product.data.map {
+                        total += it.total?.toInt()!!
+                    }
+
+                    binding.tvTotal.text = "Rp. $total"
                     binding.progress.hide()
                 }
 
