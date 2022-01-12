@@ -9,10 +9,12 @@ import id.rrdev.pretest.databinding.ActivityLoginBinding
 import id.rrdev.pretest.ui.HomeActivity
 import id.rrdev.pretest.utils.*
 import okhttp3.RequestBody
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: AuthViewModel
+    private val viewModel: AuthViewModel by viewModel()
+
     private val mapLogin = HashMap<String, RequestBody>()
     private val binding: ActivityLoginBinding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
@@ -27,8 +29,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        viewModel = AuthViewModel(this)
-
         if (prefManager.getAuthData()?.token != null) {
             intentToHome()
         }

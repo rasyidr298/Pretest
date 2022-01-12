@@ -2,10 +2,7 @@ package id.rrdev.pretest.data.repository
 
 import id.rrdev.pretest.data.network.MyApi
 import id.rrdev.pretest.data.network.SafeApiRequest
-import id.rrdev.pretest.data.response.AuthResponse
-import id.rrdev.pretest.data.response.ProductPostResponse
-import id.rrdev.pretest.data.response.ProductResponse
-import id.rrdev.pretest.data.response.TransactionResponse
+import id.rrdev.pretest.data.response.*
 import okhttp3.RequestBody
 
 class AppRepository(private val api: MyApi): SafeApiRequest() {
@@ -25,24 +22,12 @@ class AppRepository(private val api: MyApi): SafeApiRequest() {
     suspend fun postProduct(dataProduct: HashMap<String, RequestBody>): ProductPostResponse {
         return apiRequest { api.postProduct(dataProduct) }
     }
-//
-//    suspend fun submitAvatar(nik: RequestBody, avatar: MultipartBody.Part): AuthResponse {
-//        return apiRequest { api.submitAvatar(nik, avatar) }
-//    }
-//
-//    suspend fun genBarcode(nik: String): GenerateBarcodeResponse {
-//        return apiRequest { api.generateBarcode(nik) }
-//    }
-//
-//    suspend fun verifEmail(verifEmail: HashMap<String, RequestBody>): VerifEmail {
-//        return apiRequest { api.verifEmail(verifEmail) }
-//    }
-//
-//    suspend fun verifCodeEmail(user_id: String, verification_code: String): VerifCodeEmail {
-//        return apiRequest { api.verifCodeEmail(user_id, verification_code) }
-//    }
-//
-//    suspend fun updatePassword(updatePassword: HashMap<String, RequestBody>): UpdatePasswordResponse {
-//        return apiRequest { api.updatePassword(updatePassword) }
-//    }
+
+    suspend fun deleteProduct(productId: String): ProductResponse {
+        return apiRequest { api.deleteProduct(productId) }
+    }
+
+    suspend fun updateProduct(productId: String, dataProduct: HashMap<String, RequestBody>): ProductPostResponse {
+        return apiRequest { api.updateProduct(productId, dataProduct) }
+    }
 }

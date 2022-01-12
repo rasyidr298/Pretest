@@ -1,7 +1,9 @@
 package id.rrdev.pretest.data.response
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class ProductResponse(
     @SerializedName("data")
@@ -12,6 +14,7 @@ data class ProductResponse(
     val success: Boolean?
 )
 
+@Parcelize
 data class DataProduct(
     @SerializedName("admin_id")
     val adminId: String?,
@@ -23,4 +26,4 @@ data class DataProduct(
     val nama: String?,
     @SerializedName("stock")
     val stock: String?
-)
+): Parcelable

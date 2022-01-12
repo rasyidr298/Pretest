@@ -8,14 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.rrdev.pretest.R
+import id.rrdev.pretest.data.response.DataProduct
 import id.rrdev.pretest.databinding.FragmentProductBinding
 import id.rrdev.pretest.ui.adapter.ProductAdapter
-import id.rrdev.pretest.utils.hide
-import id.rrdev.pretest.utils.show
+import id.rrdev.pretest.utils.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class ProductFragment : Fragment() {
+class ProductFragment : Fragment(), OnItemClicked {
 
-    lateinit var viewModel: ProductViewModel
+    private val viewModel: ProductViewModel by viewModel()
     lateinit var adapter: ProductAdapter
 
     private var _fragment: FragmentProductBinding? = null
@@ -37,8 +38,7 @@ class ProductFragment : Fragment() {
     }
 
     private fun initView() {
-        viewModel = ProductViewModel(requireContext())
-        adapter = ProductAdapter()
+        adapter = ProductAdapter(this)
 
         with(binding.rvProduct){
             layoutManager = LinearLayoutManager(requireContext())
@@ -49,23 +49,35 @@ class ProductFragment : Fragment() {
 
         with(binding) {
             btnAdd.setOnClickListener {
-                navigationChange(ProductInputFragment())
+                ProductInputDialog.build(null) {}.show(requireFragmentManager(), tag(requireContext()))
             }
         }
     }
 
-    private fun navigationChange(fragment: Fragment) {
-        activity!!.supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.frameContainer, fragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .commit()
+    override fun onDeleteProductClick(data: DataProduct) {
+        super.onDeleteProductClick(data)
+        dialog(requireContext()) {
+            viewModel.deleteProduct(data.id!!)
+        }
+    }
+
+    override fun onUpdateProductClick(data: DataProduct) {
+        super.onUpdateProductClick(data)
+        ProductInputDialog.build(data) {}.show(requireFragmentManager(), tag(requireContext()))
     }
 
     private fun observeData() {
         viewModel.state.observe(viewLifecycleOwner, { result ->
             when (result) {
                 is ProductViewModel.ProductState.Succes -> {
+                    this.adapter.addList(result.product.data!!)
+                    binding.tvTotal.text = result.product.data.size.toString()
+
+                    binding.progress.hide()
+                }
+
+                is ProductViewModel.ProductState.SuccesDelete -> {
+                    activity?.toast("succes delete")
                     this.adapter.addList(result.product.data!!)
                     binding.tvTotal.text = result.product.data.size.toString()
 

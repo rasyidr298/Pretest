@@ -18,7 +18,8 @@ class PrefManager(context: Context) {
     }
 
     fun clearAllPref() {
-//        sp.edit().remove(PREF_AUTH_APP).apply()
+        sp.edit().remove("saveAuthData").apply()
+        sp.edit().remove("spTotalPrice").apply()
     }
 
     fun saveAuthData(list: DataAuth) {

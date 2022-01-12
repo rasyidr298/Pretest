@@ -1,5 +1,6 @@
 package id.rrdev.pretest.utils
 
+import android.app.AlertDialog
 import android.content.Context
 import android.view.View
 import android.widget.Toast
@@ -12,6 +13,10 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputLayout
+import android.content.DialogInterface
+
+
+
 
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -59,4 +64,22 @@ fun List<View>.clearErrorInputLayout(){
             vi.isErrorEnabled = false
         }
     }
+}
+
+fun dialog(context: Context, onSubmit: () -> Unit) {
+    val dialogClickListener =
+        DialogInterface.OnClickListener { dialog, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                    onSubmit.invoke()
+                }
+                DialogInterface.BUTTON_NEGATIVE -> {
+                    dialog.dismiss()
+                }
+            }
+        }
+
+    val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+    builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+        .setNegativeButton("No", dialogClickListener).show()
 }

@@ -2,10 +2,7 @@ package id.rrdev.pretest.data.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import id.rrdev.pretest.MyApp.Companion.prefManager
-import id.rrdev.pretest.data.response.AuthResponse
-import id.rrdev.pretest.data.response.ProductPostResponse
-import id.rrdev.pretest.data.response.ProductResponse
-import id.rrdev.pretest.data.response.TransactionResponse
+import id.rrdev.pretest.data.response.*
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,6 +27,19 @@ interface MyApi {
 
     @JvmSuppressWildcards
     @Multipart
+    @POST("product/{product_id}")
+    suspend fun updateProduct(
+        @Path("product_id") productId: String?,
+        @PartMap dataProduct: Map<String, RequestBody>
+    ): Response<ProductPostResponse>
+
+    @DELETE("product/{product_id}")
+    suspend fun deleteProduct(
+        @Path("product_id") productId: String
+    ): Response<ProductResponse>
+
+    @JvmSuppressWildcards
+    @Multipart
     @POST("product")
     suspend fun postProduct(
         @PartMap dataProduct: Map<String, RequestBody>
@@ -38,38 +48,6 @@ interface MyApi {
     @GET("transaksi")
     suspend fun getTransaction(
     ): Response<TransactionResponse>
-//
-//    @Multipart
-//    @POST("user/avatar")
-//    suspend fun submitAvatar(
-//        @Part("nik") nik: RequestBody,
-//        @Part avatar: MultipartBody.Part
-//    ): Response<AuthResponse>
-//
-//    @GET("qrcode/generate")
-//    suspend fun generateBarcode(
-//        @Query("nik") nik: String
-//    ): Response<GenerateBarcodeResponse>
-//
-//    @JvmSuppressWildcards
-//    @Multipart
-//    @POST("user/send_verify_code")
-//    suspend fun verifEmail(
-//        @PartMap postVerifEmail: Map<String, RequestBody>
-//    ): Response<VerifEmail>
-//
-//    @GET("user/cek_verify_code")
-//    suspend fun verifCodeEmail(
-//        @Query("user_id") user_id: String,
-//        @Query("verification_code") verif_code: String
-//    ): Response<VerifCodeEmail>
-//
-//    @JvmSuppressWildcards
-//    @Multipart
-//    @POST("user/update_password")
-//    suspend fun updatePassword(
-//        @PartMap postUpdatePassword: Map<String, RequestBody>
-//    ): Response<UpdatePasswordResponse>
 
     companion object {
         operator fun invoke(
@@ -82,14 +60,13 @@ interface MyApi {
 
             return Retrofit.Builder()
                 .client(okkHttpclient)
-                .baseUrl("https://69b6-182-1-77-239.ngrok.io/ci-pcs-rest-api/api/")
+                .baseUrl("https://890d-182-1-68-105.ngrok.io/ci-pcs-rest-api/api/")
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                .client(getOkHttpClient(networkConnectionInterceptor))
                 .build()
                 .create(MyApi::class.java)
         }
-
 
         private fun getOkHttpClient(
             networkConnectionInterceptor: NetworkConnectionInterceptor

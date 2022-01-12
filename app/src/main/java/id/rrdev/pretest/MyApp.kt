@@ -1,7 +1,11 @@
 package id.rrdev.pretest
 
 import android.app.Application
+import id.rrdev.pretest.di.viewModelModule
 import id.rrdev.pretest.utils.PrefManager
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.logger.Level
 
 class MyApp: Application() {
 
@@ -16,5 +20,20 @@ class MyApp: Application() {
         super.onCreate()
         instance = this
         prefManager = PrefManager(this)
+
+        startKoin()
     }
+
+    private fun startKoin() {
+        org.koin.core.context.startKoin {
+            androidLogger(Level.NONE)
+            androidContext(this@MyApp)
+            modules(
+                listOf(
+                    viewModelModule
+                )
+            )
+        }
+    }
+
 }

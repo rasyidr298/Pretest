@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import id.rrdev.pretest.data.response.DataProduct
 import id.rrdev.pretest.databinding.ItemProductBinding
+import id.rrdev.pretest.utils.OnItemClicked
 
-class ProductAdapter() : RecyclerView.Adapter<ProductAdapter.EventHolder>() {
+class ProductAdapter(private val onItemClicked: OnItemClicked) : RecyclerView.Adapter<ProductAdapter.EventHolder>() {
 
     private val list = mutableListOf<DataProduct>()
 
@@ -29,17 +30,23 @@ class ProductAdapter() : RecyclerView.Adapter<ProductAdapter.EventHolder>() {
     }
 
     override fun onBindViewHolder(holder: EventHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(onItemClicked, list[position])
     }
 
     override fun getItemCount(): Int = list.size
 
     class EventHolder(private val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: DataProduct) {
+        fun bind(onItemClicked: OnItemClicked, data: DataProduct) {
             with(binding){
                 tvName.text = data.nama
                 tvPrice.text = "Rp."+data.harga
+                btnEdit.setOnClickListener {
+                    onItemClicked.onUpdateProductClick(data)
+                }
+                btnDelete.setOnClickListener {
+                    onItemClicked.onDeleteProductClick(data)
+                }
             }
         }
     }

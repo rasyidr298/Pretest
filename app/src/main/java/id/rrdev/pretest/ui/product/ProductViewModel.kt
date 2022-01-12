@@ -24,6 +24,8 @@ class ProductViewModel(context: Context): BaseViewModel<ProductViewModel.Product
         data class Loading(val isLoading:Boolean) : ProductState()
         data class Succes(val product : ProductResponse) : ProductState()
         data class SuccesPost(val product : ProductPostResponse) : ProductState()
+        data class SuccesUpdate(val product : ProductPostResponse) : ProductState()
+        data class SuccesDelete(val product : ProductResponse) : ProductState()
         data class Error(val message :String) : ProductState()
     }
 
@@ -56,6 +58,48 @@ class ProductViewModel(context: Context): BaseViewModel<ProductViewModel.Product
                 val barcodeResponse = repository.postProduct(dataProduct)
                 barcodeResponse.let {
                     _state.value= (ProductState.SuccesPost(it))
+                    return@main
+                }
+
+            } catch (e: ApiException) {
+                _state.value= (ProductState.Error(e.message.toString()))
+            } catch (e: NoInternetException) {
+                _state.value= (ProductState.Error(e.message.toString()))
+            }catch (e: IOException){
+                _state.value= (ProductState.Error(e.message.toString()))
+            }
+        }
+    }
+
+    fun deleteProduct(productId: String) {
+        Coroutines.main {
+            _state.value= (ProductState.Loading(true))
+
+            try {
+                val barcodeResponse = repository.deleteProduct(productId)
+                barcodeResponse.let {
+                    _state.value= (ProductState.SuccesDelete(it))
+                    return@main
+                }
+
+            } catch (e: ApiException) {
+                _state.value= (ProductState.Error(e.message.toString()))
+            } catch (e: NoInternetException) {
+                _state.value= (ProductState.Error(e.message.toString()))
+            }catch (e: IOException){
+                _state.value= (ProductState.Error(e.message.toString()))
+            }
+        }
+    }
+
+    fun updateProduct(productId: String, dataProduct: HashMap<String, RequestBody>) {
+        Coroutines.main {
+            _state.value= (ProductState.Loading(true))
+
+            try {
+                val barcodeResponse = repository.updateProduct(productId, dataProduct)
+                barcodeResponse.let {
+                    _state.value= (ProductState.SuccesUpdate(it))
                     return@main
                 }
 

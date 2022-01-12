@@ -8,12 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.rrdev.pretest.databinding.FragmentReportBinding
 import id.rrdev.pretest.ui.adapter.ReportAdapter
+import id.rrdev.pretest.ui.product.ProductViewModel
 import id.rrdev.pretest.utils.hide
 import id.rrdev.pretest.utils.show
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class ReportFragment : Fragment() {
 
-    lateinit var viewModel: ReportViewModel
+    private val viewModel: ReportViewModel by viewModel()
     lateinit var adapter: ReportAdapter
 
     private var _fragment: FragmentReportBinding? = null
@@ -35,7 +37,6 @@ class ReportFragment : Fragment() {
     }
 
     private fun initView() {
-        viewModel = ReportViewModel(requireContext())
         adapter = ReportAdapter()
 
         with(binding.rvProduct){
