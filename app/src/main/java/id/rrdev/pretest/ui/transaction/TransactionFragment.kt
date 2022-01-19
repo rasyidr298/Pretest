@@ -41,6 +41,11 @@ class TransactionFragment : Fragment(), OnItemClicked {
         observeData()
     }
 
+    override fun onPause() {
+        super.onPause()
+        binding.mShimmerViewContainer.stopShimmer()
+    }
+
     private fun initView() {
         adapter = TransactionAdapter(this)
 
@@ -65,26 +70,35 @@ class TransactionFragment : Fragment(), OnItemClicked {
                 is ProductViewModel.ProductState.Succes -> {
                     this.adapter.addList(result.product.data!!)
                     binding.let {
-                        it.progress.hide()
-
                         //if empty
                         if (result.product.data.isNullOrEmpty()) {
                             it.lottie.setAnimation("empty.json")
                             it.lottie.show()
                         }
+
+                        //shimmer
+                        it.mShimmerViewContainer.hide()
+                        it.mShimmerViewContainer.stopShimmer()
                     }
                 }
 
                 is ProductViewModel.ProductState.Error -> {
                     binding.let {
-                        it.progress.hide()
                         activity?.toast(result.message)
                         it.lottie.setAnimation("error.json")
                         it.lottie.show()
+
+                        //shimmer
+                        it.mShimmerViewContainer.hide()
+                        it.mShimmerViewContainer.stopShimmer()
                     }
                 }
                 is ProductViewModel.ProductState.Loading -> {
-                    binding.progress.show()
+                    binding.mShimmerViewContainer.let {
+                        //shimmer
+                        it.show()
+                        it.showShimmer(true)
+                    }
                 }
             }
         })

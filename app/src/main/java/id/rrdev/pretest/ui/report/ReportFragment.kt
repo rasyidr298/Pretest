@@ -36,6 +36,11 @@ class ReportFragment : Fragment() {
         observeData()
     }
 
+    override fun onPause() {
+        super.onPause()
+        binding.mShimmerViewContainer.stopShimmer()
+    }
+
     private fun initView() {
         adapter = ReportAdapter()
 
@@ -58,7 +63,6 @@ class ReportFragment : Fragment() {
                     }
 
                     binding.let {
-                        it.progress.hide()
                         it.tvTotal.text = "Rp. $total"
 
                         //if empty
@@ -66,19 +70,30 @@ class ReportFragment : Fragment() {
                             it.lottie.setAnimation("empty.json")
                             it.lottie.show()
                         }
+
+                        //shimmer
+                        it.mShimmerViewContainer.hide()
+                        it.mShimmerViewContainer.stopShimmer()
                     }
                 }
 
                 is ReportViewModel.ReportState.Error -> {
                     binding.let {
-                        it.progress.hide()
                         activity?.toast(result.message)
                         it.lottie.setAnimation("error.json")
                         it.lottie.show()
+
+                        //shimmer
+                        it.mShimmerViewContainer.hide()
+                        it.mShimmerViewContainer.stopShimmer()
                     }
                 }
                 is ReportViewModel.ReportState.Loading -> {
-                    binding.progress.show()
+                    binding.mShimmerViewContainer.let {
+                        //shimmer
+                        it.show()
+                        it.showShimmer(true)
+                    }
                 }
             }
         })
