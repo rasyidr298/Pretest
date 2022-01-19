@@ -62,4 +62,16 @@
         tools:layout_editor_absoluteX="115dp"
         tools:listitem="@layout/item_report" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="50dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        tools:listitem="@layout/item_product" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.login.LoginActivity">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/form"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/form"
         android:layout_width="0dp"
@@ -18,10 +29,9 @@
         app:contentPaddingLeft="20dp"
         app:contentPaddingRight="20dp"
         app:contentPaddingTop="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/guideline3">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -123,5 +133,12 @@
         </RelativeLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

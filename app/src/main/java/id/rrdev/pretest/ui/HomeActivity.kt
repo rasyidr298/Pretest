@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction
 import id.rrdev.pretest.MyApp.Companion.prefManager
 import id.rrdev.pretest.R
 import id.rrdev.pretest.databinding.ActivityHomeBinding
-import id.rrdev.pretest.ui.about.AboutFragment
 import id.rrdev.pretest.ui.login.LoginActivity
 import id.rrdev.pretest.ui.product.ProductFragment
 import id.rrdev.pretest.ui.report.ReportFragment
@@ -30,30 +29,31 @@ class HomeActivity : AppCompatActivity() {
     private fun initView() {
         navigationChange(ProductFragment())
 
-        binding.btnLogout.setOnClickListener {
-            prefManager.clearAllPref()
-            Intent(this, LoginActivity::class.java).also {
-                it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(it)
-            }
-        }
+        with(binding) {
+            btnLogout.setAnimation("logout.json")
 
-        binding.bottomNavigationContainer.setOnNavigationItemSelectedListener {item ->
-            when (item.itemId) {
-                R.id.menu_product -> {
-                    navigationChange(ProductFragment())
-                }
-                R.id.menu_transaction  -> {
-                    navigationChange(TransactionFragment())
-                }
-                R.id.menu_report  -> {
-                    navigationChange(ReportFragment())
-                }
-                R.id.menu_about  -> {
-                    navigationChange(AboutFragment())
+            btnLogout.setOnClickListener {
+                prefManager.clearAllPref()
+                Intent(this@HomeActivity, LoginActivity::class.java).also {
+                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(it)
                 }
             }
-            false
+
+            bottomNavigationContainer.setOnNavigationItemSelectedListener {item ->
+                when (item.itemId) {
+                    R.id.menu_product -> {
+                        navigationChange(ProductFragment())
+                    }
+                    R.id.menu_transaction  -> {
+                        navigationChange(TransactionFragment())
+                    }
+                    R.id.menu_report  -> {
+                        navigationChange(ReportFragment())
+                    }
+                }
+                false
+            }
         }
     }
 

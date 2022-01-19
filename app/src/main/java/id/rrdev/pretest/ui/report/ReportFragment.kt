@@ -10,6 +10,7 @@ import id.rrdev.pretest.databinding.FragmentReportBinding
 import id.rrdev.pretest.ui.adapter.ReportAdapter
 import id.rrdev.pretest.utils.hide
 import id.rrdev.pretest.utils.show
+import id.rrdev.pretest.utils.toast
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ReportFragment : Fragment() {
@@ -56,12 +57,25 @@ class ReportFragment : Fragment() {
                         total += it.total?.toInt()!!
                     }
 
-                    binding.tvTotal.text = "Rp. $total"
-                    binding.progress.hide()
+                    binding.let {
+                        it.progress.hide()
+                        it.tvTotal.text = "Rp. $total"
+
+                        //if empty
+                        if (result.product.data.isNullOrEmpty()) {
+                            it.lottie.setAnimation("empty.json")
+                            it.lottie.show()
+                        }
+                    }
                 }
 
                 is ReportViewModel.ReportState.Error -> {
-                    binding.progress.hide()
+                    binding.let {
+                        it.progress.hide()
+                        activity?.toast(result.message)
+                        it.lottie.setAnimation("error.json")
+                        it.lottie.show()
+                    }
                 }
                 is ReportViewModel.ReportState.Loading -> {
                     binding.progress.show()

@@ -49,6 +49,7 @@ class ProductFragment : Fragment(), OnItemClicked {
         viewModel.getProduct()
 
         with(binding) {
+            btnAdd.setAnimation("add.json")
             btnAdd.setOnClickListener {
                 ProductInputDialog.build(null) {}.show(requireFragmentManager(), tag(requireContext()))
             }
@@ -64,7 +65,9 @@ class ProductFragment : Fragment(), OnItemClicked {
 
     override fun onUpdateProductClick(data: DataProduct) {
         super.onUpdateProductClick(data)
-        ProductInputDialog.build(data) {}.show(requireFragmentManager(), tag(requireContext()))
+        ProductInputDialog.build(data) {
+            observeData()
+        }.show(requireFragmentManager(), tag(requireContext()))
     }
 
     private fun observeData() {
@@ -72,21 +75,34 @@ class ProductFragment : Fragment(), OnItemClicked {
             when (result) {
                 is ProductViewModel.ProductState.Succes -> {
                     this.adapter.addList(result.product.data!!)
-                    binding.tvTotal.text = result.product.data.size.toString()
+                    binding.let {
+                        it.tvTotal.text = result.product.data.size.toString()
+                        it.progress.hide()
 
-                    binding.progress.hide()
+                        //if empty
+                        if (result.product.data.isNullOrEmpty()) {
+                            it.lottie.setAnimation("empty.json")
+                            it.lottie.show()
+                        }
+                    }
                 }
 
                 is ProductViewModel.ProductState.SuccesDelete -> {
                     activity?.toast("succes delete")
                     this.adapter.addList(result.product.data!!)
-                    binding.tvTotal.text = result.product.data.size.toString()
-
-                    binding.progress.hide()
+                    binding.let {
+                        it.tvTotal.text = result.product.data.size.toString()
+                        it.progress.hide()
+                    }
                 }
 
                 is ProductViewModel.ProductState.Error -> {
-                    binding.progress.hide()
+                    binding.let {
+                        it.progress.hide()
+                        activity?.toast(result.message)
+                        it.lottie.setAnimation("error.json")
+                        it.lottie.show()
+                    }
                 }
                 is ProductViewModel.ProductState.Loading -> {
                     binding.progress.show()

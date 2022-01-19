@@ -13,10 +13,7 @@ import id.rrdev.pretest.databinding.FragmentTransactionBinding
 import id.rrdev.pretest.ui.adapter.TransactionAdapter
 import id.rrdev.pretest.ui.product.ProductInputDialog
 import id.rrdev.pretest.ui.product.ProductViewModel
-import id.rrdev.pretest.utils.OnItemClicked
-import id.rrdev.pretest.utils.hide
-import id.rrdev.pretest.utils.show
-import id.rrdev.pretest.utils.tag
+import id.rrdev.pretest.utils.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class TransactionFragment : Fragment(), OnItemClicked {
@@ -67,11 +64,24 @@ class TransactionFragment : Fragment(), OnItemClicked {
             when (result) {
                 is ProductViewModel.ProductState.Succes -> {
                     this.adapter.addList(result.product.data!!)
-                    binding.progress.hide()
+                    binding.let {
+                        it.progress.hide()
+
+                        //if empty
+                        if (result.product.data.isNullOrEmpty()) {
+                            it.lottie.setAnimation("empty.json")
+                            it.lottie.show()
+                        }
+                    }
                 }
 
                 is ProductViewModel.ProductState.Error -> {
-                    binding.progress.hide()
+                    binding.let {
+                        it.progress.hide()
+                        activity?.toast(result.message)
+                        it.lottie.setAnimation("error.json")
+                        it.lottie.show()
+                    }
                 }
                 is ProductViewModel.ProductState.Loading -> {
                     binding.progress.show()

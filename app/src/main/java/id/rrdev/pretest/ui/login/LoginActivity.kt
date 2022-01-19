@@ -33,8 +33,11 @@ class LoginActivity : AppCompatActivity() {
             intentToHome()
         }
 
-        binding.btnLogin.setOnClickListener {
-            doLogin()
+        binding.let {
+            it.lottieAnimationView.setAnimation("login.json")
+            it.btnLogin.setOnClickListener {
+                doLogin()
+            }
         }
     }
 
