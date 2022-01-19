@@ -39,6 +39,7 @@ class ProductFragment : Fragment(), OnItemClicked {
 
     private fun initView() {
         adapter = ProductAdapter(this)
+        adapter.search(binding.search) {observeData()}
 
         with(binding.rvProduct){
             layoutManager = LinearLayoutManager(requireContext())

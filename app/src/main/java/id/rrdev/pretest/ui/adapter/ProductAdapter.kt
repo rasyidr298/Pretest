@@ -2,11 +2,14 @@ package id.rrdev.pretest.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import id.rrdev.pretest.data.response.DataProduct
 import id.rrdev.pretest.databinding.ItemProductBinding
 import id.rrdev.pretest.utils.OnItemClicked
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ProductAdapter(private val onItemClicked: OnItemClicked) : RecyclerView.Adapter<ProductAdapter.EventHolder>() {
 
@@ -49,6 +52,32 @@ class ProductAdapter(private val onItemClicked: OnItemClicked) : RecyclerView.Ad
                 }
             }
         }
+    }
+
+    //search
+    fun search(view: SearchView, observeData: ()-> Unit) {
+        view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                observeData.invoke()
+
+                newText?.lowercase(Locale.getDefault())
+                val dataFilter = ArrayList<DataProduct>()
+
+                for (data in this@ProductAdapter.list) {
+                    val nama = data.nama!!.lowercase(Locale.getDefault())
+                    if (nama.contains(newText!!,true)) {
+                        dataFilter.add(data)
+                    }
+                }
+                this@ProductAdapter.addList(dataFilter)
+                return false
+            }
+        })
     }
 
 }
