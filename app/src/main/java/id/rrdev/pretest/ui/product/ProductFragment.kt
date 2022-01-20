@@ -34,12 +34,16 @@ class ProductFragment : Fragment(), OnItemClicked {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
-        observeData()
     }
 
     override fun onPause() {
         super.onPause()
         binding.mShimmerViewContainer.stopShimmer()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        observeData()
     }
 
     private fun initView() {
@@ -56,7 +60,9 @@ class ProductFragment : Fragment(), OnItemClicked {
         with(binding) {
             btnAdd.setAnimation("add.json")
             btnAdd.setOnClickListener {
-                ProductInputDialog.build(null) {}.show(requireFragmentManager(), tag(requireContext()))
+                ProductInputDialog.build(null) {
+                    viewModel.getProduct()
+                }.show(requireFragmentManager(), tag(requireContext()))
             }
         }
     }
@@ -71,7 +77,7 @@ class ProductFragment : Fragment(), OnItemClicked {
     override fun onUpdateProductClick(data: DataProduct) {
         super.onUpdateProductClick(data)
         ProductInputDialog.build(data) {
-            observeData()
+            viewModel.getProduct()
         }.show(requireFragmentManager(), tag(requireContext()))
     }
 
@@ -79,12 +85,12 @@ class ProductFragment : Fragment(), OnItemClicked {
         viewModel.state.observe(viewLifecycleOwner, { result ->
             when (result) {
                 is ProductViewModel.ProductState.Succes -> {
-                    this.adapter.addList(result.product.data!!)
+                    this.adapter.addList(result.product)
                     binding.let {
-                        it.tvTotal.text = result.product.data.size.toString()
+                        it.tvTotal.text = result.product.size.toString()
 
                         //if empty
-                        if (result.product.data.isNullOrEmpty()) {
+                        if (result.product.isNullOrEmpty()) {
                             it.lottie.setAnimation("empty.json")
                             it.lottie.show()
                         }
@@ -97,9 +103,9 @@ class ProductFragment : Fragment(), OnItemClicked {
 
                 is ProductViewModel.ProductState.SuccesDelete -> {
                     activity?.toast("succes delete")
-                    this.adapter.addList(result.product.data!!)
+                    this.adapter.addList(result.product)
                     binding.let {
-                        it.tvTotal.text = result.product.data.size.toString()
+                        it.tvTotal.text = result.product.size.toString()
 
                         //shimmer
                         it.mShimmerViewContainer.hide()
