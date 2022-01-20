@@ -30,14 +30,14 @@ class TransactionAdapter(private val onItemClicked: OnItemClicked) : RecyclerVie
     }
 
     override fun onBindViewHolder(holder: EventHolder, position: Int) {
-        holder.bind(onItemClicked, list[position])
+        holder.bind(onItemClicked, list[position], position)
     }
 
     override fun getItemCount(): Int = list.size
 
     class EventHolder(private val binding: ItemTransactionBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(onItemClicked: OnItemClicked, data: DataProduct) {
+        fun bind(onItemClicked: OnItemClicked, data: DataProduct, position: Int) {
             with(binding){
                 tvName.text = data.nama
                 tvPrice.text = "Rp."+data.harga
@@ -47,14 +47,14 @@ class TransactionAdapter(private val onItemClicked: OnItemClicked) : RecyclerVie
 
                 btnIncrease.setOnClickListener {
                     total += 1
-                    onItemClicked.onEventClick(total)
+                    onItemClicked.onIncreaseTransaction(total, position)
                     tvTotal.text = total.toString()
                 }
 
                 btnDecrease.setOnClickListener {
                     if (total != 0) {
                         total -= 1
-                        onItemClicked.onEventClick(total)
+                        onItemClicked.onDecreaseTransaction(total, position)
                         tvTotal.text = total.toString()
                     }
                 }

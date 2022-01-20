@@ -37,7 +37,7 @@
             android:id="@+id/btnDecrease"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_add"
+            android:src="@drawable/ic_min"
             app:layout_constraintBottom_toBottomOf="@+id/tvTotal"
             app:layout_constraintEnd_toStartOf="@+id/tvTotal"
             app:layout_constraintTop_toTopOf="@+id/tvTotal" />

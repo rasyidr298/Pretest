@@ -101,12 +101,14 @@ class ProductInputDialog(
         viewModel.state.observe(viewLifecycleOwner, { result ->
             when (result) {
                 is ProductViewModel.ProductState.SuccesPost -> {
+                    onSubmit()
                     dismiss()
                     binding.progress.hide()
                     context?.toast("Success..")
                 }
 
                 is ProductViewModel.ProductState.SuccesUpdate -> {
+                    onSubmit()
                     dismiss()
                     binding.progress.hide()
                     context?.toast("Success..")

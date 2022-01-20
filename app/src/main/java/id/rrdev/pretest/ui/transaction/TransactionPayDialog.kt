@@ -74,7 +74,7 @@ class TransactionPayDialog(
             }
 
             btnSubmit.setOnClickListener {
-                if (tvTotal.text.toString().toInt() > tvPenerimaan.text.toString().toInt()) {
+                if (tvTotal.text.toString().toInt() > etName.text.toString().toInt()) {
                     activity?.toast("uang anda kurang, silahkan berkerja lebih giat lagi!!")
                 }else if (tvTotal.text.isEmpty()) {
                     activity?.toast("harusa terisi")

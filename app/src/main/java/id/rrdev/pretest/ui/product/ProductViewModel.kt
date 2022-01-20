@@ -4,8 +4,8 @@ import android.content.Context
 import id.rrdev.pretest.data.network.MyApi
 import id.rrdev.pretest.data.network.NetworkConnectionInterceptor
 import id.rrdev.pretest.data.repository.AppRepository
+import id.rrdev.pretest.data.response.DataProduct
 import id.rrdev.pretest.data.response.ProductPostResponse
-import id.rrdev.pretest.data.response.ProductResponse
 import id.rrdev.pretest.utils.ApiException
 import id.rrdev.pretest.utils.BaseViewModel
 import id.rrdev.pretest.utils.Coroutines
@@ -22,10 +22,10 @@ class ProductViewModel(context: Context): BaseViewModel<ProductViewModel.Product
 
     sealed class ProductState{
         data class Loading(val isLoading:Boolean) : ProductState()
-        data class Succes(val product : ProductResponse) : ProductState()
+        data class Succes(val product: List<DataProduct>) : ProductState()
         data class SuccesPost(val product : ProductPostResponse) : ProductState()
         data class SuccesUpdate(val product : ProductPostResponse) : ProductState()
-        data class SuccesDelete(val product : ProductResponse) : ProductState()
+        data class SuccesDelete(val product: List<DataProduct>) : ProductState()
         data class Error(val message :String) : ProductState()
     }
 
@@ -36,7 +36,7 @@ class ProductViewModel(context: Context): BaseViewModel<ProductViewModel.Product
             try {
                 val barcodeResponse = repository.getProduct()
                 barcodeResponse.let {
-                    _state.value= (ProductState.Succes(it))
+                    _state.value= (ProductState.Succes(it.data!!.sortedBy { it.nama }))
                     return@main
                 }
 
@@ -78,7 +78,7 @@ class ProductViewModel(context: Context): BaseViewModel<ProductViewModel.Product
             try {
                 val barcodeResponse = repository.deleteProduct(productId)
                 barcodeResponse.let {
-                    _state.value= (ProductState.SuccesDelete(it))
+                    _state.value= (ProductState.SuccesDelete(it.data!!.sortedBy { it.nama }))
                     return@main
                 }
 

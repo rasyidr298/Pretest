@@ -68,10 +68,10 @@ class TransactionFragment : Fragment(), OnItemClicked {
         viewModel.state.observe(viewLifecycleOwner, { result ->
             when (result) {
                 is ProductViewModel.ProductState.Succes -> {
-                    this.adapter.addList(result.product.data!!)
+                    this.adapter.addList(result.product)
                     binding.let {
                         //if empty
-                        if (result.product.data.isNullOrEmpty()) {
+                        if (result.product.isNullOrEmpty()) {
                             it.lottie.setAnimation("empty.json")
                             it.lottie.show()
                         }
@@ -104,12 +104,17 @@ class TransactionFragment : Fragment(), OnItemClicked {
         })
     }
 
-    override fun onEventClick(data: Int) {
-        super.onEventClick(data)
+    override fun onIncreaseTransaction(total: Int, position: Int) {
+        super.onIncreaseTransaction(total, position)
 
-        for (i in 1 until adapter.list.size) {
-            totalPrice += (adapter.list[i].harga!!.toInt() * data)
-        }
+        totalPrice += (adapter.list[position].harga!!.toInt() * total)
+        binding.tvTotal.text = "Rp. $totalPrice"
+    }
+
+    override fun onDecreaseTransaction(total: Int, position: Int) {
+        super.onDecreaseTransaction(total, position)
+
+        totalPrice -= (adapter.list[position].harga!!.toInt() * total)
         binding.tvTotal.text = "Rp. $totalPrice"
     }
 
