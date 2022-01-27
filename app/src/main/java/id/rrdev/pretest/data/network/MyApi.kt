@@ -67,7 +67,7 @@ interface MyApi {
 
             return Retrofit.Builder()
                 .client(okkHttpclient)
-                .baseUrl("https://d955-114-125-77-19.ngrok.io/ci-pcs-rest-api/api/")
+                .baseUrl("https://7033-114-125-92-61.ngrok.io/ci-pcs-rest-api/api/")
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                .client(getOkHttpClient(networkConnectionInterceptor))
